@@ -1,4 +1,4 @@
-node {
+pipeline {
     stages {
         stage("Build and Push Backend") {
             steps {
