@@ -1,0 +1,40 @@
+version: '3'
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      REACT_APP_API_URL: http://localhost:8000/api
+      GENERATE_SOURCEMAP: false
+    volumes:
+      - ./client:/app
+    command: serve -s build
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./backend/.env.prod:/app/.env
+      - /Users/viktortasevski/Desktop/faks/kiii/proekt/backend-storage:/app/storage/app
+    command: php artisan serve --host=0.0.0.0
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: room-revamp
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '5433:5432'
+    volumes:
+      - /Users/viktortasevski/Desktop/faks/kiii/proekt/postgres-data:/var/lib/postgresql/data
