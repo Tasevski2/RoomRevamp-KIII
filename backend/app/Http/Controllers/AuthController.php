@@ -49,11 +49,11 @@ class AuthController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
         $user = User::where('email', $email)->first();
-        if (!$user->email_verified_at) {
-            return response()->json(['error' => ['Your email is not verified!']], 401);
-        }
         if (!$user || !Hash::check($password, $user->password)) {
             return response()->json(['error' => ['Your email or password is incorrect!']], 401);
+        }
+        if (!$user->email_verified_at) {
+            return response()->json(['error' => ['Your email is not verified!']], 401);
         }
         return response()->json(['token' => $user->createToken(Str::random(20))->plainTextToken, 'user' => $user]);
     }
