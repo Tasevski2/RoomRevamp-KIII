@@ -4,7 +4,7 @@ pipeline {
         stage("Build and Push Backend") {
             steps {
                 script {
-                    dir("backend") {
+                    dir("./backend") {
                         checkout scm
                         def beApp = docker.build("viktortasevski/room-revamp-be")
                         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
@@ -19,7 +19,7 @@ pipeline {
         stage('Build and Push Frontend') {
             steps {
                 script {
-                    dir("client") {
+                    dir("./client") {
                         checkout scm
                         def feApp = docker.build("viktortasevski/room-revamp-fe")
                         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
