@@ -1,4 +1,5 @@
 pipeline {
+    agent any
     stages {
         stage("Build and Push Backend") {
             steps {
