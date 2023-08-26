@@ -8,8 +8,8 @@ pipeline {
                         checkout scm
                         def beApp = docker.build("viktortasevski/room-revamp-be")
                         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                        beApp.push("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
-                        beApp.push("${env.BRANCH_NAME}-latest")
+                        beApp.push("${env.BUILD_NUMBER}")
+                        beApp.push("latest")
                         }
                     }
                 }
@@ -23,8 +23,8 @@ pipeline {
                         checkout scm
                         def feApp = docker.build("viktortasevski/room-revamp-fe")
                         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                        feApp.push("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
-                        feApp.push("${env.BRANCH_NAME}-latest")
+                        feApp.push("${env.BUILD_NUMBER}")
+                        feApp.push("latest")
                         }
                     }
                 }

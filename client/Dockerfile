@@ -1,4 +1,3 @@
-# Use the official Node.js image with version 18.12.1 as the base image
 FROM node:18.12.1
 
 WORKDIR /app
