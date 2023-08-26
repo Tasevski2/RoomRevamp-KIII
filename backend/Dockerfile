@@ -1,4 +1,4 @@
-FROM php:8.1-fpm-buster
+FROM php:8.1-fpm-alpine
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
