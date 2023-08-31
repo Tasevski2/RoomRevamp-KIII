@@ -31,13 +31,21 @@ pipeline {
             }
         }
 
+        // stage('Deploying App to Kubernetes') {
+        //         steps {
+        //              withKubeConfig([credentialsId: 'kubernetes']) {  
+        //                 sh 'curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"'
+        //                 sh 'chmod u+x ./kubectl'
+        //                 sh './kubectl apply -f jenkins-deployment.yml'
+        //              } 
+        //         }
+        // }
+
         stage('Deploying App to Kubernetes') {
                 steps {
-                     withKubeConfig([credentialsId: 'kubernetes']) {  
-                        sh 'curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"'
-                        sh 'chmod u+x ./kubectl'
-                        sh './kubectl apply -f jenkins-deployment.yml'
-                     } 
+                    script {
+                        kubernetesDeploy(configs: "jenkins-deployment.yml", kubeconfigId: "kubeconfig")
+                    }
                 }
         }
     }
