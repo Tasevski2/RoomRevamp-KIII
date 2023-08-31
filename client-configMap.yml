@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: client-config
+data:
+  REACT_APP_API_URL: http://localhost:80/api
+  GENERATE_SOURCEMAP: 'false'

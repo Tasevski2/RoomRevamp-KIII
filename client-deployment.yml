@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-deployment
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+        - name: client-pod
+          image: viktortasevski/room-revamp-fe:latest
+          envFrom:
+            - configMapRef:
+                name: client-config
+          ports:
+            - containerPort: 3000
+          command: ['serve', '-s', 'build']

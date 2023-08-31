@@ -5,7 +5,7 @@ services:
       context: ./client
       dockerfile: Dockerfile
     ports:
-      - '3000:3000'
+      - '3001:3000'
     environment:
       REACT_APP_API_URL: http://localhost:8000/api
       GENERATE_SOURCEMAP: false
@@ -20,10 +20,10 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - '8000:8000'
+      - '8001:8000'
     volumes:
       - ./backend/.env.prod:/app/.env
-      - /Users/viktortasevski/Desktop/faks/kiii/proekt/backend-storage:/app/storage/app
+      - /Users/viktortasevski/Desktop/faks/kiii/proekt/backend-storage-compose:/app/storage/app
     command: php artisan serve --host=0.0.0.0
     depends_on:
       - postgres
@@ -37,4 +37,4 @@ services:
     ports:
       - '5433:5432'
     volumes:
-      - /Users/viktortasevski/Desktop/faks/kiii/proekt/postgres-data:/var/lib/postgresql/data
+      - /Users/viktortasevski/Desktop/faks/kiii/proekt/postgres-data-compose:/var/lib/postgresql/data

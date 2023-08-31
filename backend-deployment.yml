@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend-pod
+          image: viktortasevski/room-revamp-be:latest
+          command: ['php', 'artisan', 'serve', '--host', '0.0.0.0']
+          ports:
+            - containerPort: 8000
+          volumeMounts:
+            - name: storage
+              mountPath: /app/storage/app
+            - name: env-config-volume
+              mountPath: /app/.env
+              subPath: .env
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: backend-pvc
+        - name: env-config-volume
+          configMap:
+            name: backend-env-config
