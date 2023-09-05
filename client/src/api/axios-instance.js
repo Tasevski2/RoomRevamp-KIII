@@ -1,7 +1,12 @@
 import axios from 'axios';
 
+const apiUrl =
+  process.env.NODE_ENV === 'production'
+    ? window.env.REACT_APP_API_URL
+    : process.env.REACT_APP_API_URL;
+
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: apiUrl,
   headers: {
     post: {
       'Content-Type': 'application/json',

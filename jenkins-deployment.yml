@@ -11,7 +11,7 @@ data:
     APP_URL=http://localhost
     API_PORT=8000
 
-    FRONTEND_URL=http://localhost:80
+    FRONTEND_URL=http://localhost:3000
 
     LOG_CHANNEL=stack
     LOG_DEPRECATIONS_CHANNEL=null
@@ -145,7 +145,7 @@ kind: ConfigMap
 metadata:
   name: client-config
 data:
-  REACT_APP_API_URL: http://localhost:80/api
+  REACT_APP_API_URL: http://localhost:8000/api
   GENERATE_SOURCEMAP: 'false'
 
 ---
@@ -154,7 +154,7 @@ kind: Deployment
 metadata:
   name: client-deployment
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -177,8 +177,13 @@ spec:
                 name: client-config
           ports:
             - containerPort: 3000
-          # command: ['serve', '-s', 'build']
-          command: ['yarn', 'start']
+          command:
+            - 'sh'
+            - '-c'
+            - |
+              sed -i 's#__REACT_APP_API_URL__#'"$REACT_APP_API_URL"'#g' public/env.js
+              yarn build
+              serve -s build
 
 ---
 apiVersion: v1

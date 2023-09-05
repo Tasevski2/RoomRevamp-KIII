@@ -43,11 +43,24 @@ pipeline {
 
         stage('Deploying App to Kubernetes') {
                 steps {
-                    script {
-                        kubernetesDeploy(configs: "jenkins-deployment.yml", kubeconfigId: "kubeconfig")
-                    }
+                     withCredentials([file(credentialsId: "kubernetes", variable: 'KUBECONFIG_FILE')]) {
+                    sh '''
+                        # Set the KUBECONFIG environment variable to the secret contents
+                        export KUBECONFIG="$KUBECONFIG_FILE"
+
+                        # Run kubectl commands as needed
+                        kubectl apply -f jenkins-deployment.yml
+                    '''
+                }
                 }
         }
-    }
 
+        // stage('Deploying App to Kubernetes') {
+        //         steps {
+        //             script {
+        //                 kubernetesDeploy(configs: "jenkins-deployment.yml", kubeconfigId: "kubeconfig")
+        //             }
+        //         }
+        // }
+    }
 }
