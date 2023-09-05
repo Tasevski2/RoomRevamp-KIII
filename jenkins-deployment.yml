@@ -11,7 +11,7 @@ data:
     APP_URL=http://localhost
     API_PORT=8000
 
-    FRONTEND_URL=http://localhost:3000
+    FRONTEND_URL=http://localhost:80
 
     LOG_CHANNEL=stack
     LOG_DEPRECATIONS_CHANNEL=null
@@ -145,7 +145,7 @@ kind: ConfigMap
 metadata:
   name: client-config
 data:
-  REACT_APP_API_URL: http://localhost:8000/api
+  REACT_APP_API_URL: http://localhost:80/api
   GENERATE_SOURCEMAP: 'false'
 
 ---
