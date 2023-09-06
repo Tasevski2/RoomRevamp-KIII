@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: client-config
 data:
-  REACT_APP_API_URL: http://localhost:8000/api
+  REACT_APP_API_URL: http://api.room-revamp.com/api
   GENERATE_SOURCEMAP: 'false'

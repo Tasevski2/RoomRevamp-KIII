@@ -1,78 +1,26 @@
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: mcu-all
-spec:
-  stripPrefix:
-    forceSlash: false
-    prefixes:
-      - /client
-      - /api
-      - /postgres
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: room-revamp-client-ingress
-  annotations:
-    ingress.kubernetes.io/ssl-redirect: 'false'
-    traefik.ingress.kubernetes.io/router.middlewares: default-mcu-all@kubernetescrd
+  name: room-revamp-ingress
 spec:
   rules:
-    - http:
+    - host: room-revamp.com
+      http:
         paths:
-          - path: /client
+          - path: /
             pathType: Prefix
             backend:
               service:
                 name: client-service
                 port:
                   number: 3000
-          - path: /api
+    - host: api.room-revamp.com
+      http:
+        paths:
+          - path: /
             pathType: Prefix
             backend:
               service:
                 name: backend-service
                 port:
                   number: 8000
-          - path: /postgres
-            pathType: Prefix
-            backend:
-              service:
-                name: postgres-service
-                port:
-                  number: 5432
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: my-ingress
-#   annotations:
-#     kubernetes.io/ingress.class: 'nginx'
-#     nginx.ingress.kubernetes.io/use-regex: 'true'
-#     # nginx.ingress.kubernetes.io/rewrite-target: /$1
-#     nginx.ingress.kubernetes.io/default-backend: ingress-nginx-controller
-# spec:
-#   rules:
-#     - http:
-#         paths:
-#           - path: /
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name: client-service
-#                 port:
-#                   number: 3000
-#           - path: /api/
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name: backend-service
-#                 port:
-#                   number: 8000
-#           - path: /postgres/?(.*)
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name: postgres-service
-#                 port:
-#                   number: 5432

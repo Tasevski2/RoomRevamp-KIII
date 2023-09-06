@@ -20,7 +20,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - '8001:8000'
+      - '8000:8000'
     volumes:
       - ./backend/.env.prod:/app/.env
       - /Users/viktortasevski/Desktop/faks/kiii/proekt/backend-storage-compose:/app/storage/app
